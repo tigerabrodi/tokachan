@@ -29,7 +29,7 @@ export function LoginPage() {
 
   if (isLoading) {
     return (
-      <div className="flex flex-1 items-center justify-center">
+      <div className="text-primary flex flex-1 items-center justify-center">
         <Loader2 className="size-10 animate-spin" />
       </div>
     )

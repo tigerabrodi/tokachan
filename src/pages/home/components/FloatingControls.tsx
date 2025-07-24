@@ -6,10 +6,12 @@ interface FloatingControlsProps {
   onClose: () => void
 }
 
+type Colors = 'Sunset' | 'Ocean' | 'Sky' | 'Mint' | 'Lavender' | 'Peach' | 'Cream' | 'Steel'
+
 export const FloatingControls = ({ onClose }: FloatingControlsProps) => {
   const [showColorPicker, setShowColorPicker] = useState(false)
 
-  const colorOptions = [
+  const colorOptions: Array<{ name: Colors; color: string }> = [
     { name: 'Sunset', color: '#FF6B6B' },
     { name: 'Ocean', color: '#4ECDC4' },
     { name: 'Sky', color: '#45B7D1' },
