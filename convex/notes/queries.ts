@@ -1,5 +1,4 @@
 import { getAuthUserId } from '@convex-dev/auth/server'
-import { ConvexError } from 'convex/values'
 
 import { query } from '../_generated/server'
 
@@ -9,7 +8,7 @@ export const getAllUserNotes = query({
     const userId = await getAuthUserId(ctx)
 
     if (!userId) {
-      throw new ConvexError('User not authenticated')
+      throw new Error('User not authenticated')
     }
 
     return await ctx.db

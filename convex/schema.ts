@@ -2,6 +2,17 @@ import { authTables } from '@convex-dev/auth/server'
 import { defineSchema, defineTable } from 'convex/server'
 import { v } from 'convex/values'
 
+export const ColorSchema = v.union(
+  v.literal('Sunset'),
+  v.literal('Ocean'),
+  v.literal('Sky'),
+  v.literal('Mint'),
+  v.literal('Lavender'),
+  v.literal('Peach'),
+  v.literal('Cream'),
+  v.literal('Steel')
+)
+
 // Define the schema for the application
 export default defineSchema({
   // Include Convex Auth tables
@@ -20,7 +31,7 @@ export default defineSchema({
     userId: v.id('users'),
     createdAt: v.number(),
     updatedAt: v.number(),
-    color: v.string(), // For colored note cards
+    color: ColorSchema, // For colored note cards
     // isArchived: v.optional(v.boolean()),
   })
     .index('by_user', ['userId'])

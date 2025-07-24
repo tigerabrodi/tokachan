@@ -15,6 +15,7 @@ import type {
 } from "convex/server";
 import type * as auth from "../auth.js";
 import type * as http from "../http.js";
+import type * as notes_mutations from "../notes/mutations.js";
 import type * as notes_queries from "../notes/queries.js";
 import type * as users_mutations from "../users/mutations.js";
 import type * as users_queries from "../users/queries.js";
@@ -31,6 +32,7 @@ import type * as utils from "../utils.js";
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   http: typeof http;
+  "notes/mutations": typeof notes_mutations;
   "notes/queries": typeof notes_queries;
   "users/mutations": typeof users_mutations;
   "users/queries": typeof users_queries;
