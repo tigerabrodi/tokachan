@@ -41,7 +41,7 @@ export function HomePage() {
             bounce: 0.3,
           }}
         >
-          Paper Notes
+          Tokachan
         </motion.h1>
         <motion.p
           className="text-muted-foreground mb-5 text-xl"
@@ -49,7 +49,7 @@ export function HomePage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, type: 'spring', bounce: 0.2 }}
         >
-          Your thoughts, beautifully organized on digital paper
+          Your thoughts, beautifully organized on digital paper.
         </motion.p>
         <motion.div
           className="text-muted-foreground flex items-center justify-center gap-4 text-sm"
@@ -58,7 +58,7 @@ export function HomePage() {
           transition={{ delay: 0.6, type: 'spring', bounce: 0.2 }}
         >
           <div className="bg-primary h-2 w-2 animate-pulse rounded-full" />
-          <span>Select a paper from the dock below to start writing</span>
+          <span>Select or create a paper from the dock below to start writing</span>
           <div className="bg-accent h-2 w-2 animate-pulse rounded-full" />
         </motion.div>
       </motion.div>
