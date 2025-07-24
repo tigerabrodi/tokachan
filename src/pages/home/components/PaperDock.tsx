@@ -23,14 +23,12 @@ export const PaperDock = ({ notes, activeNoteId, onNoteSelect }: PaperDockProps)
       }
 
       const existingNotes = localStore.getQuery(api.notes.queries.getAllUserNotes, {}) || []
-      // Generate a unique temp id
       const tempId = `tmp-${Date.now()}-${Math.random()}`
-      // Create the optimistic note object
       const optimisticNote = {
-        _id: tempId as Id<'notes'>, // Important: unique temporary id
+        _id: tempId as Id<'notes'>,
         title: 'Untitled',
         content: '',
-        userId: user?._id, // Fill in actual user id logic
+        userId: user?._id,
         _creationTime: Date.now(),
         createdAt: Date.now(),
         updatedAt: Date.now(),
