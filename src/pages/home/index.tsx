@@ -63,6 +63,8 @@ export function HomePage() {
         </motion.div>
       </motion.div>
 
+      {activeNoteId && activeNote && <div className="bg-background/50 absolute inset-0" />}
+
       <AnimatePresence>
         {activeNoteId && activeNote && <Paper key={activeNoteId} note={activeNote} />}
       </AnimatePresence>
