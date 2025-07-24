@@ -4,7 +4,7 @@ import { Infer } from 'convex/values'
 import { mutation } from '../_generated/server'
 import { ColorSchema } from '../schema'
 
-type Colors = Infer<typeof ColorSchema>
+export type Colors = Infer<typeof ColorSchema>
 
 export const createNote = mutation({
   args: {},

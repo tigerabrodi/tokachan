@@ -2,6 +2,8 @@ import { Doc } from '@convex/_generated/dataModel'
 import { motion } from 'motion/react'
 import { useState } from 'react'
 
+import { COLORS_MAP } from '@/lib/constants'
+
 type PaperProps = {
   note: Doc<'notes'>
   onClick?: () => void
@@ -44,7 +46,7 @@ export const PaperThumbnail = ({ note, onClick }: PaperProps) => {
         <motion.div
           // layoutId={paperColorLayoutId}
           className="absolute top-1 left-1 h-2 w-2 rounded-full"
-          style={{ backgroundColor: note.color }}
+          style={{ backgroundColor: COLORS_MAP[note.color] }}
           initial={{ scale: 0.5 }}
           animate={{ scale: 1 }}
           exit={{ scale: 0.5 }}

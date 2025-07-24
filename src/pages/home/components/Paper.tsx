@@ -1,6 +1,8 @@
 import { Doc } from '@convex/_generated/dataModel'
 import { motion } from 'motion/react'
 
+import { COLORS_MAP } from '@/lib/constants'
+
 type PaperProps = {
   note: Doc<'notes'>
 }
@@ -14,8 +16,8 @@ export const Paper = ({ note }: PaperProps) => {
         className="bg-gradient-paper shadow-paper border-paper-border rounded-lg border p-8"
         style={{
           // A4 proportions scaled down to fit screen
-          maxWidth: '420px',
-          maxHeight: '594px',
+          width: '420px',
+          height: '594px',
           aspectRatio: '210/297',
         }}
         initial={{ scale: 0.2, y: 300 }}
@@ -39,15 +41,15 @@ export const Paper = ({ note }: PaperProps) => {
           <div className="mb-6">
             <motion.div
               className="mb-2 h-6 w-6 rounded-full"
-              style={{ backgroundColor: note.color }}
+              style={{ backgroundColor: COLORS_MAP[note.color] }}
               initial={{ scale: 0.5 }}
               animate={{ scale: 1 }}
               transition={{ duration: 0.3 }}
             />
             <motion.h1
               className="text-foreground font-rubik text-2xl font-semibold"
-              initial={{ scale: 0.2, filter: 'blur(40px)' }}
-              animate={{ scale: 1, filter: 'blur(0px)' }}
+              initial={{ scale: 0.2 }}
+              animate={{ scale: 1 }}
               transition={{ duration: 0.2 }}
             >
               {note.title}
