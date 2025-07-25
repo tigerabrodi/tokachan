@@ -5,6 +5,9 @@ import { useMutation } from 'convex/react'
 import debounce from 'lodash.debounce'
 import { motion } from 'motion/react'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import '../editor.styles.css'
+
+import { PaperEditor } from './PaperEditor'
 
 import { COLORS_MAP } from '@/lib/constants'
 
@@ -52,10 +55,10 @@ export const Paper = ({ note }: PaperProps) => {
   }, [debouncedSave])
 
   return (
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+    <div className="absolute top-[44%] left-1/2 -translate-x-1/2 -translate-y-1/2">
       <motion.div
         layoutId={paperLayoutId}
-        className="bg-gradient-paper shadow-paper border-paper-border rounded-lg border p-8"
+        className="bg-gradient-paper shadow-paper border-paper-border rounded-lg border p-8 pl-9"
         style={{
           // A4 proportions scaled down to fit screen
           width: '420px',
@@ -80,7 +83,7 @@ export const Paper = ({ note }: PaperProps) => {
 
         {/* Content */}
         <div className="relative z-10 h-full">
-          <div className="mb-6">
+          <div className="mb-2">
             <motion.div
               className="mb-2 h-6 w-6 rounded-full"
               style={{ backgroundColor: COLORS_MAP[note.color] }}
@@ -98,17 +101,7 @@ export const Paper = ({ note }: PaperProps) => {
             />
           </div>
 
-          <motion.div className="prose prose-slate max-w-none">
-            <motion.p
-              className="text-foreground/80 leading-relaxed whitespace-pre-wrap"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4, ease: 'easeOut' }}
-            >
-              {note.content}
-            </motion.p>
-          </motion.div>
+          <PaperEditor note={note} />
         </div>
       </motion.div>
     </div>

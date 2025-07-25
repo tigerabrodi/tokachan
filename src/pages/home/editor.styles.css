@@ -1,0 +1,64 @@
+.prose h1 {
+  color: #1a202c; /* Example: dark gray */
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 1.25;
+  margin-bottom: 0.5;
+}
+
+.prose h2 {
+  color: #2d3748;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.prose h3 {
+  color: #4a5568;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  margin-bottom: 0.15rem;
+}
+
+.prose p {
+  margin-bottom: 0.25em;
+  color: #2d3748;
+}
+
+.prose ul, .prose ol {
+  margin-left: 2em;
+  padding-left: 1em;
+}
+
+.prose ul {
+  list-style-type: disc;
+}
+
+.prose ol {
+  list-style-type: decimal;
+}
+
+.prose blockquote {
+  border-left: 4px solid #cbd5e0;
+  padding-left: 1em;
+  color: #718096;
+  font-style: italic;
+}
+
+.prose pre, .prose code {
+  font-family: 'Fira Mono', monospace;
+  background: #f7fafc;
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+}
+
+.prose a {
+  color: #3182ce;
+  text-decoration: underline;
+}
+
+.prose a:hover {
+  color: #2b6cb0;
+}
