@@ -1,5 +1,5 @@
 import { getAuthUserId } from '@convex-dev/auth/server'
-import { Infer } from 'convex/values'
+import { ConvexError, Infer, v } from 'convex/values'
 
 import { mutation } from '../_generated/server'
 import { ColorSchema } from '../schema'
@@ -26,5 +26,37 @@ export const createNote = mutation({
     })
 
     return note
+  },
+})
+
+export const updateNote = mutation({
+  args: {
+    noteId: v.id('notes'),
+    data: v.object({
+      title: v.optional(v.string()),
+      content: v.optional(v.string()),
+    }),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx)
+    if (!userId) {
+      throw new Error('User not authenticated')
+    }
+
+    const { data } = args
+
+    const note = await ctx.db.get(args.noteId)
+    if (!note) {
+      throw new ConvexError('Note not found')
+    }
+
+    if (note.userId !== userId) {
+      throw new ConvexError('User does not have permission to update this note')
+    }
+
+    await ctx.db.patch(args.noteId, {
+      ...data,
+      updatedAt: Date.now(),
+    })
   },
 })

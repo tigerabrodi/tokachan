@@ -1,5 +1,10 @@
+import { api } from '@convex/_generated/api'
+import type { Id } from '@convex/_generated/dataModel'
 import { Doc } from '@convex/_generated/dataModel'
+import { useMutation } from 'convex/react'
+import debounce from 'lodash.debounce'
 import { motion } from 'motion/react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { COLORS_MAP } from '@/lib/constants'
 
@@ -7,8 +12,45 @@ type PaperProps = {
   note: Doc<'notes'>
 }
 
+const DEBOUNCE_TIME = 1000
+
 export const Paper = ({ note }: PaperProps) => {
   const paperLayoutId = `paper-${note._id}`
+  const updateNote = useMutation(api.notes.mutations.updateNote)
+  const [localTitle, setLocalTitle] = useState(note.title)
+
+  const hasUnsavedChanges = useRef(false)
+
+  const debouncedSave = useMemo(
+    () =>
+      debounce((noteId: Id<'notes'>, data: { title?: string }) => {
+        void updateNote({ noteId, data })
+        hasUnsavedChanges.current = false
+      }, DEBOUNCE_TIME),
+    [updateNote]
+  )
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newTitle = e.target.value
+    setLocalTitle(newTitle) // Immediate UI update
+    hasUnsavedChanges.current = true
+    debouncedSave(note._id, { title: newTitle }) // Background save
+  }
+
+  // Sync local state when note prop changes (from server updates)
+  useEffect(() => {
+    setLocalTitle(note.title)
+  }, [note.title])
+
+  // Flush any pending saves when component unmounts
+  useEffect(() => {
+    return () => {
+      if (hasUnsavedChanges.current) {
+        void debouncedSave.flush()
+      }
+    }
+  }, [debouncedSave])
+
   return (
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
       <motion.div
@@ -46,19 +88,19 @@ export const Paper = ({ note }: PaperProps) => {
               animate={{ scale: 1 }}
               transition={{ duration: 0.3 }}
             />
-            <motion.h1
-              className="text-foreground font-rubik text-2xl font-semibold"
+            <motion.input
+              className="text-foreground text-2xl font-semibold focus:outline-none"
               initial={{ scale: 0.2 }}
               animate={{ scale: 1 }}
               transition={{ duration: 0.2 }}
-            >
-              {note.title}
-            </motion.h1>
+              value={localTitle}
+              onChange={handleTitleChange}
+            />
           </div>
 
           <motion.div className="prose prose-slate max-w-none">
             <motion.p
-              className="text-foreground/80 font-rubik leading-relaxed whitespace-pre-wrap"
+              className="text-foreground/80 leading-relaxed whitespace-pre-wrap"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}

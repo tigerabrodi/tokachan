@@ -60,9 +60,7 @@ export const PaperThumbnail = ({ note, onClick }: PaperProps) => {
           animate={{ scale: 1 }}
           exit={{ scale: 0.5 }}
         >
-          <div className="text-foreground/60 font-rubik truncate text-[6px] font-medium">
-            {note.title}
-          </div>
+          <div className="text-foreground/60 truncate text-[6px] font-medium">{note.title}</div>
         </motion.div>
       </motion.div>
     </motion.div>
