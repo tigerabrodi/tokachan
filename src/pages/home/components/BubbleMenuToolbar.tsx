@@ -13,6 +13,7 @@ import {
   Quote,
   Sparkles,
 } from 'lucide-react'
+import { useRef } from 'react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -24,8 +25,11 @@ import {
 
 export const BubbleMenuToolbar = () => {
   const { editor } = useCurrentEditor()
+  const containerRef = useRef<HTMLElement>(null)
 
   if (!editor) return null
+
+  const isAiGenerating = editor.storage.ai.state === 'loading'
 
   const runAICommand = (command: string) => {
     if (!editor) return
@@ -63,7 +67,10 @@ export const BubbleMenuToolbar = () => {
         placement: 'top',
       }}
     >
-      <div className="bg-card flex items-center gap-1 rounded-lg border p-2 shadow-lg backdrop-blur-sm">
+      <div
+        ref={containerRef as React.Ref<HTMLDivElement>}
+        className="bg-card flex items-center gap-1 rounded-lg border p-2 shadow-lg backdrop-blur-sm"
+      >
         {/* Text Formatting */}
         <Button
           variant={editor.isActive('bold') ? 'default' : 'ghost'}
@@ -147,13 +154,18 @@ export const BubbleMenuToolbar = () => {
         <div className="bg-border mx-1 h-6 w-px" />
 
         {/* AI Dropdown */}
-        <DropdownMenu>
+        <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="sm" className="text-primary">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-primary"
+              onMouseDown={(e) => e.preventDefault()}
+            >
               <Sparkles className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="center">
+          <DropdownMenuContent align="center" container={containerRef.current}>
             <DropdownMenuItem onClick={() => runAICommand('simplify')}>
               <Sparkles className="mr-2 h-4 w-4" />
               Simplify
