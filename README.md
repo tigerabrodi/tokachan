@@ -4,7 +4,7 @@ A fun lil ai note taking app built with React, Convex, Framer Motion and Tiptap.
 
 # Image
 
-<img width="276" height="589" alt="Screenshot 2025-07-17 at 09 23 11" src="https://github.com/user-attachments/assets/f75dcfe1-242c-4f7c-8476-a6b94418aedf" />
+<img width="1268" height="777" alt="Screenshot 2025-07-25 at 16 16 53" src="https://github.com/user-attachments/assets/2ca49f98-05c9-4f01-97da-f547e0655714" />
 
 # How to run
 
