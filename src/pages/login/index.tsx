@@ -7,6 +7,7 @@ import { generatePath, useNavigate } from 'react-router'
 import { LoginForm } from './components/LoginForm'
 import { RegisterForm } from './components/RegisterForm'
 
+import PencilImg from '@/assets/pencil.png'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ROUTES, TAB_VALUES } from '@/lib/constants'
@@ -39,8 +40,9 @@ export function LoginPage() {
     <div className="flex flex-1 items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="flex flex-col items-center gap-1">
-          <CardTitle className="text-primary flex items-center justify-center gap-2 text-center text-2xl">
+          <CardTitle className="text-primary flex items-center justify-center gap-3 text-center text-2xl">
             Tokachan
+            <img src={PencilImg} alt="Tokachan" className="mb-2 size-6" />
           </CardTitle>
         </CardHeader>
         <CardContent>
