@@ -13,11 +13,12 @@ import { COLORS_MAP } from '@/lib/constants'
 
 type PaperProps = {
   note: Doc<'notes'>
+  paperRef: React.Ref<HTMLDivElement>
 }
 
 const DEBOUNCE_TIME = 1000
 
-export const Paper = ({ note }: PaperProps) => {
+export const Paper = ({ note, paperRef }: PaperProps) => {
   const paperLayoutId = `paper-${note._id}`
   const updateNote = useMutation(api.notes.mutations.updateNote)
   const [localTitle, setLocalTitle] = useState(note.title)
@@ -57,6 +58,7 @@ export const Paper = ({ note }: PaperProps) => {
   return (
     <div className="absolute top-[44%] left-1/2 -translate-x-1/2 -translate-y-1/2">
       <motion.div
+        ref={paperRef}
         layoutId={paperLayoutId}
         className="bg-gradient-paper shadow-paper border-paper-border rounded-lg border p-8 pl-9"
         style={{

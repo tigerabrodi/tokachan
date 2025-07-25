@@ -4,11 +4,12 @@ import { useState } from 'react'
 
 interface FloatingControlsProps {
   onClose: () => void
+  floatingRef: React.Ref<HTMLDivElement>
 }
 
 type Colors = 'Sunset' | 'Ocean' | 'Sky' | 'Mint' | 'Lavender' | 'Peach' | 'Cream' | 'Steel'
 
-export const FloatingControls = ({ onClose }: FloatingControlsProps) => {
+export const FloatingControls = ({ onClose, floatingRef }: FloatingControlsProps) => {
   const [showColorPicker, setShowColorPicker] = useState(false)
 
   const colorOptions: Array<{ name: Colors; color: string }> = [
@@ -24,6 +25,7 @@ export const FloatingControls = ({ onClose }: FloatingControlsProps) => {
 
   return (
     <motion.div
+      ref={floatingRef}
       className="fixed top-6 right-6 z-30"
       initial={{ x: 100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}

@@ -1,7 +1,7 @@
 import { api } from '@convex/_generated/api'
 import { useQuery } from 'convex/react'
 import { AnimatePresence, motion } from 'motion/react'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { FloatingControls } from './components/FloatingControls'
 import { Paper } from './components/Paper'
@@ -11,6 +11,10 @@ export function HomePage() {
   const notes = useQuery(api.notes.queries.getAllUserNotes, {})
   const [activeNoteId, setActiveNoteId] = useState<string | null>(null)
 
+  // Refs for click-outside logic
+  const paperRef = useRef<HTMLDivElement>(null)
+  const floatingRef = useRef<HTMLDivElement>(null)
+
   const handlePaperSelect = (id: string) => {
     setActiveNoteId(id)
   }
@@ -18,6 +22,26 @@ export function HomePage() {
   const handleClosePaper = () => {
     setActiveNoteId(null)
   }
+
+  // Click outside handler
+  useEffect(() => {
+    if (!activeNoteId) return
+    function handleClickOutside(event: MouseEvent) {
+      const target = event.target as Node
+      if (
+        paperRef.current &&
+        !paperRef.current.contains(target) &&
+        floatingRef.current &&
+        !floatingRef.current.contains(target)
+      ) {
+        handleClosePaper()
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [activeNoteId])
 
   const activeNote = notes?.find((note) => note._id === activeNoteId)
 
@@ -66,7 +90,9 @@ export function HomePage() {
       {activeNoteId && activeNote && <div className="bg-background/50 absolute inset-0" />}
 
       <AnimatePresence>
-        {activeNoteId && activeNote && <Paper key={activeNoteId} note={activeNote} />}
+        {activeNoteId && activeNote && (
+          <Paper key={activeNoteId} note={activeNote} paperRef={paperRef} />
+        )}
       </AnimatePresence>
 
       {/* Paper dock */}
@@ -74,7 +100,7 @@ export function HomePage() {
 
       {/* Floating controls when paper is active */}
       <AnimatePresence>
-        {activeNoteId && <FloatingControls onClose={handleClosePaper} />}
+        {activeNoteId && <FloatingControls onClose={handleClosePaper} floatingRef={floatingRef} />}
       </AnimatePresence>
     </div>
   )
