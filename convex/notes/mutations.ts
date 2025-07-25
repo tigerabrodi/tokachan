@@ -35,6 +35,7 @@ export const updateNote = mutation({
     data: v.object({
       title: v.optional(v.string()),
       content: v.optional(v.string()),
+      color: v.optional(v.union(ColorSchema)),
     }),
   },
   handler: async (ctx, args) => {

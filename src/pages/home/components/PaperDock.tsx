@@ -9,8 +9,8 @@ import { PaperThumbnail } from './PaperThumbnail'
 
 interface PaperDockProps {
   notes: Array<Doc<'notes'>>
-  activeNoteId: string | null
-  onNoteSelect: (id: string) => void
+  activeNoteId: Id<'notes'> | null
+  onNoteSelect: (id: Id<'notes'>) => void
 }
 
 export const PaperDock = ({ notes, activeNoteId, onNoteSelect }: PaperDockProps) => {

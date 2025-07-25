@@ -5,11 +5,16 @@ import { useState } from 'react'
 interface FloatingControlsProps {
   onClose: () => void
   floatingRef: React.Ref<HTMLDivElement>
+  onColorChange: (color: Colors) => void
 }
 
 type Colors = 'Sunset' | 'Ocean' | 'Sky' | 'Mint' | 'Lavender' | 'Peach' | 'Cream' | 'Steel'
 
-export const FloatingControls = ({ onClose, floatingRef }: FloatingControlsProps) => {
+export const FloatingControls = ({
+  onClose,
+  floatingRef,
+  onColorChange,
+}: FloatingControlsProps) => {
   const [showColorPicker, setShowColorPicker] = useState(false)
 
   const colorOptions: Array<{ name: Colors; color: string }> = [
@@ -93,6 +98,7 @@ export const FloatingControls = ({ onClose, floatingRef }: FloatingControlsProps
                     duration: 0.1,
                   }}
                   title={color.name}
+                  onClick={() => onColorChange(color.name)}
                 />
               ))}
             </div>

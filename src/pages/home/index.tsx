@@ -1,5 +1,7 @@
 import { api } from '@convex/_generated/api'
-import { useQuery } from 'convex/react'
+import { Id } from '@convex/_generated/dataModel'
+import { Colors } from '@convex/notes/mutations'
+import { useMutation, useQuery } from 'convex/react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
 
@@ -9,18 +11,43 @@ import { PaperDock } from './components/PaperDock'
 
 export function HomePage() {
   const notes = useQuery(api.notes.queries.getAllUserNotes, {})
-  const [activeNoteId, setActiveNoteId] = useState<string | null>(null)
+  const [activeNoteId, setActiveNoteId] = useState<Id<'notes'> | null>(null)
+  const updateNoteColor = useMutation(api.notes.mutations.updateNote).withOptimisticUpdate(
+    (localStore, args) => {
+      const color = args.data.color
+
+      if (!color) {
+        return localStore
+      }
+
+      const existingNotes = localStore.getQuery(api.notes.queries.getAllUserNotes, {}) || []
+      const note = existingNotes.find((note) => note._id === activeNoteId)
+
+      if (note) {
+        const newNote = { ...note, color }
+        const allNewNotes = existingNotes.map((n) => (n._id === activeNoteId ? newNote : n))
+        localStore.setQuery(api.notes.queries.getAllUserNotes, {}, allNewNotes)
+      }
+      return localStore
+    }
+  )
 
   // Refs for click-outside logic
   const paperRef = useRef<HTMLDivElement>(null)
   const floatingRef = useRef<HTMLDivElement>(null)
 
-  const handlePaperSelect = (id: string) => {
+  const handlePaperSelect = (id: Id<'notes'>) => {
     setActiveNoteId(id)
   }
 
   const handleClosePaper = () => {
     setActiveNoteId(null)
+  }
+
+  const handleColorChange = (color: Colors) => {
+    if (activeNoteId) {
+      void updateNoteColor({ noteId: activeNoteId, data: { color } })
+    }
   }
 
   // Click outside handler
@@ -100,7 +127,13 @@ export function HomePage() {
 
       {/* Floating controls when paper is active */}
       <AnimatePresence>
-        {activeNoteId && <FloatingControls onClose={handleClosePaper} floatingRef={floatingRef} />}
+        {activeNoteId && (
+          <FloatingControls
+            onClose={handleClosePaper}
+            floatingRef={floatingRef}
+            onColorChange={handleColorChange}
+          />
+        )}
       </AnimatePresence>
     </div>
   )
